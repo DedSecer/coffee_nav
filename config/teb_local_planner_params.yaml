@@ -22,8 +22,8 @@ TebLocalPlannerROS:
   exact_arc_length: false
   force_reinit_new_goal_dist: 1.0
   force_reinit_new_goal_angular: 0.78
-  feasibility_check_no_poses: 30
-  feasibility_check_lookahead_distance: 3
+  feasibility_check_no_poses: 5
+  feasibility_check_lookahead_distance: 1.5
   publish_feedback: false
   min_resolution_collision_check_angular: 3.1415926
   control_look_ahead_poses: 1
@@ -54,11 +54,11 @@ TebLocalPlannerROS:
   complete_global_plan: false
 
   # Obstacles
-  min_obstacle_dist: 0.15
-  inflation_dist: 0.45
+  min_obstacle_dist: 0.25
+  inflation_dist: 0.5
   dynamic_obstacle_inflation_dist: 0.6
   include_dynamic_obstacles: true
-  include_costmap_obstacles: false
+  include_costmap_obstacles: true
   costmap_obstacles_behind_robot_dist: 2.0
   obstacle_poses_affected: 10
   legacy_obstacle_association: false
@@ -136,9 +136,9 @@ TebLocalPlannerROS:
   # max_ratio_detours_duration_best_duration:
 
   # Recovery
-  shrink_horizon_backup: false
-  # shrink_horizon_min_duration: 
-  oscillation_recovery: false
+  shrink_horizon_backup: true
+  shrink_horizon_min_duration: 5.0
+  oscillation_recovery: true
   # oscillation_v_eps: 
   # oscillation_omega_eps: 
   # oscillation_recovery_min_duration: 
