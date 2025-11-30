@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- ============================================ -->
+  <!--                   参数配置                    -->
+  <!-- ============================================ -->
+  <arg name="map_name" default="lite3" />
+  <arg name="open_rviz" default="true" />
+  
+  <!-- 初始位置偏移（Fast-LIO 坐标系相对于 map 的偏移） -->
+  <arg name="init_x" default="0.0" />
+  <arg name="init_y" default="0.0" />
+  <arg name="init_z" default="0.0" />
+  <arg name="init_yaw" default="0.0" />
+
+  <!-- ============================================ -->
+  <!--   Fast-LIO 发布 odom -> base_link TF         -->
+  <!--   动态 TF 节点发布 map -> odom，支持 initialpose    -->
+  <!-- ============================================ -->
+  
+  <!-- 动态 map -> odom TF 发布节点，订阅 /initialpose 设置初始位置 -->
+  <node pkg="coffee_nav" type="map_to_odom_tf.py" name="map_to_odom_tf" output="screen">
+    <param name="init_x" value="$(arg init_x)" />
+    <param name="init_y" value="$(arg init_y)" />
+    <param name="init_z" value="$(arg init_z)" />
+    <param name="init_yaw" value="$(arg init_yaw)" />
+    <param name="publish_rate" value="50.0" />
+  </node>
+
+  <!-- ============================================ -->
+  <!--                  地图服务                     -->
+  <!-- ============================================ -->
+  <!-- 加载2D栅格地图用于全局规划 -->
+  <node name="MapServer" pkg="map_server" type="map_server" args="/home/ysc/lite_cog/system/map/$(arg map_name).yaml"/>
+
+  <!-- ============================================ -->
+  <!--                   导航系统                    -->
+  <!-- ============================================ -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <!-- global costmap -->
+    <rosparam file="$(find coffee_nav)/config/common_costmap_params.yaml" command="load" ns="global_costmap" /> 
+    <rosparam file="$(find coffee_nav)/config/global_costmap_params.yaml" command="load" ns="global_costmap" />     
+
+    <!-- local costmap -->
+    <rosparam file="$(find coffee_nav)/config/local_costmap_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find coffee_nav)/config/common_costmap_params.yaml" command="load" ns="local_costmap" />
+
+    <!-- global planner -->
+    <rosparam file="$(find coffee_nav)/config/global_planner_params.yaml" command="load" />
+
+    <!-- local planner -->
+    <rosparam file="$(find coffee_nav)/config/teb_local_planner_params.yaml" command="load" />
+
+    <!-- move base -->
+    <rosparam file="$(find coffee_nav)/config/move_base_params.yaml" command="load"/>
+  </node>
+
+  <!-- ============================================ -->
+  <!--                   可视化                      -->
+  <!-- ============================================ -->
+  <node name="rviz" pkg="rviz" type="rviz" required="true" 
+        args="-d $(find coffee_nav)/rviz/coffee_nav.rviz" 
+        if="$(arg open_rviz)" /> 
+</launch>
