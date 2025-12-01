@@ -25,3 +25,11 @@ transform_tolerance: 0.5
 plugins:
   - {name: stvl_obstacle_layer, type: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"}
   - {name: sob_layer,  type: "sob_layer::SobLayer"}  
+
+# SOB 膨胀层 (Local)
+sob_layer:
+  enabled: true
+  inflate_unknown: false
+  inscribed_radius: 0.15
+  inflation_radius: 0.6
+  cost_scaling_factor: 10

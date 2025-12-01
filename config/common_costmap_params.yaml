@@ -58,10 +58,4 @@ stvl_obstacle_layer:
     model_type: 1
     obstacle_range: 10.0           #meters
 
-# SOB 膨胀层
-sob_layer:
-  enabled: true
-  inflate_unknown: false
-  inscribed_radius: 0.15
-  inflation_radius: 0.6
-  cost_scaling_factor: 10
+
