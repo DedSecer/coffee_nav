@@ -21,8 +21,6 @@ roslaunch faster_lio mapping_c16.launch rviz:=false
 read -p 'Press any key to exit...'
 "
 
-sleep 3
-
 # 启动导航系统（在新终端）
 gnome-terminal --title="FastLIO Navigation" -- bash -c "
 source /home/ysc/coffee_ws/devel/setup.bash
