@@ -176,7 +176,7 @@ class MapToOdomTF:
         
         t_map_odom.transform.translation.x = tf_x
         t_map_odom.transform.translation.y = tf_y
-        t_map_odom.transform.translation.z = tf_z
+        t_map_odom.transform.translation.z = 0
         
         q = tft.quaternion_from_euler(0, 0, tf_yaw)
         t_map_odom.transform.rotation.x = q[0]
@@ -192,7 +192,7 @@ class MapToOdomTF:
         
         t_odom_base.transform.translation.x = self.current_lio_pose.pose.pose.position.x
         t_odom_base.transform.translation.y = self.current_lio_pose.pose.pose.position.y
-        t_odom_base.transform.translation.z = self.current_lio_pose.pose.pose.position.z
+        t_odom_base.transform.translation.z = 0
         t_odom_base.transform.rotation = self.current_lio_pose.pose.pose.orientation
         
         # 同时发布两个 TF
